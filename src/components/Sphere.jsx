@@ -75,6 +75,7 @@ const Sphere = () => {
   const [calculatorPosition, setCalculatorPosition] = useState({ x: 20, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [focusedCalcBlock, setFocusedCalcBlock] = useState(null); // 'bottom' | 'top' | null
 
   const shapeLibrary = [
     { id: 'circle', name: 'Circle', svg: '○', formula: 'πr²' },
@@ -792,7 +793,7 @@ const Sphere = () => {
                 <span style={{ fontWeight: 'bold', color: '#008542' }}>Find the Surface Area of the 3D Staircase</span><br/>
                 Identify the dimensions of the two blocks, then calculate the total surface area!
                 <span style={{
-                  position: 'absolute',
+                
                   left: '-24px',
                   top: '32px',
                   width: 0,
@@ -803,7 +804,7 @@ const Sphere = () => {
                   zIndex: 1
                 }}></span>
                 <span style={{
-                  position: 'absolute',
+            
                   left: '-20px',
                   top: '34px',
                   width: 0,
@@ -860,7 +861,7 @@ const Sphere = () => {
                   <polyline
                     points="60,260 150,350"
                     fill="none"
-                    stroke={focusedInput === 'bottomLength' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'bottomLength' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'bottomLength' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -868,7 +869,7 @@ const Sphere = () => {
                   <polyline
                     points="160,210 60,210"
                     fill="none"
-                    stroke={focusedInput === 'bottomWidth' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'bottomWidth' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'bottomWidth' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -876,7 +877,7 @@ const Sphere = () => {
                   <polyline
                     points="60,210 60,260"
                     fill="none"
-                    stroke={focusedInput === 'bottomHeight' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'bottomHeight' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'bottomHeight' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -884,7 +885,7 @@ const Sphere = () => {
                   <polyline
                     points="210,160 300,250"
                     fill="none"
-                    stroke={focusedInput === 'topLength' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'topLength' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'topLength' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -892,7 +893,7 @@ const Sphere = () => {
                   <polyline
                     points="210,160 160,160"
                     fill="none"
-                    stroke={focusedInput === 'topWidth' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'topWidth' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'topWidth' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -900,7 +901,7 @@ const Sphere = () => {
                   <polyline
                     points="300,250 300,350"
                     fill="none"
-                    stroke={focusedInput === 'topHeight' ? 'yellow' : '#008542'}
+                    stroke={focusedInput === 'topHeight' ? '#5953F0' : '#008542'}
                     strokeWidth={focusedInput === 'topHeight' ? 4 : 2}
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -908,44 +909,44 @@ const Sphere = () => {
                   {/* Existing polygons for block faces, but no highlight logic now */}
                   <polygon
                     points="150,300 250,300 160,210 60,210"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="150,350 250,350 250,300 150,300"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="150,350 150,300 60,210 60,260"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   {/* Right/top rectangle faces */}
                   <polygon
                     points="250,250 300,250 210,160 160,160"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="250,350 300,350 300,250 250,250"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="300,350 300,250 210,160 210,260"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="210,260 210,160 160,160 160,260"
-                    fill="transparent"
+                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -1193,6 +1194,8 @@ const Sphere = () => {
                               }`}
                               placeholder="?"
                               style={{ pointerEvents: 'auto' }}
+                              onFocus={() => setFocusedCalcBlock('bottom')}
+                              onBlur={() => setFocusedCalcBlock(null)}
                             />
                             <button 
                               className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
@@ -1225,6 +1228,8 @@ const Sphere = () => {
                               }`}
                               placeholder="?"
                               style={{ pointerEvents: 'auto' }}
+                              onFocus={() => setFocusedCalcBlock('top')}
+                              onBlur={() => setFocusedCalcBlock(null)}
                             />
                             <button 
                               className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
@@ -1463,7 +1468,7 @@ const Sphere = () => {
       {isCustomShape && showCalculations && (
         <div
           style={{
-            position: 'fixed',
+            
             left: calculatorPosition.x,
             top: calculatorPosition.y,
             zIndex: 1000,
