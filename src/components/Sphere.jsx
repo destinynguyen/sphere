@@ -1501,13 +1501,13 @@ const Sphere = () => {
           }}
         >
               <div
-                onClick={() => setCalculatorExpanded(!calculatorExpanded)}
+                onClick={() => !calculatorExpanded && setCalculatorExpanded(true)}
                 style={{
                   width: calculatorExpanded ? 200 : 60,
                   height: calculatorExpanded ? 280 : 75,
-              background: '#2d3748',
-              border: '2px solid #1a202c',
-              borderRadius: 8,
+                  background: '#2d3748',
+                  border: '2px solid #1a202c',
+                  borderRadius: 8,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -1515,6 +1515,7 @@ const Sphere = () => {
                   justifyContent: 'center',
                   transition: 'all 0.3s cubic-bezier(.4,2,.6,1)',
                   overflow: 'hidden',
+                  cursor: calculatorExpanded ? 'default' : 'pointer'
                 }}
               >
                 <div 
@@ -1532,9 +1533,33 @@ const Sphere = () => {
                     borderRadius: calculatorExpanded ? 0 : '3px 3px 0 0',
                     margin: calculatorExpanded ? 0 : '3px 3px 0 3px',
                     width: calculatorExpanded ? '100%' : 'calc(100% - 6px)',
-                    cursor: 'move'
+                    cursor: 'move',
+                    position: 'relative'
                   }}
                 >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCalculatorExpanded(false);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: calculatorExpanded ? '8px' : '2px',
+                      right: calculatorExpanded ? '8px' : '2px',
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#666',
+                      fontSize: calculatorExpanded ? '16px' : '8px',
+                      cursor: 'pointer',
+                      padding: '2px',
+                      lineHeight: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    ×
+                  </button>
                   {calculatorDisplay}
                 </div>
                 {!calculatorExpanded && (
