@@ -72,7 +72,7 @@ const Sphere = () => {
   const [calculatorOperation, setCalculatorOperation] = useState(null);
   const [calculatorWaitingForOperand, setCalculatorWaitingForOperand] = useState(false);
   const [calculatorExpanded, setCalculatorExpanded] = useState(false);
-  const [calculatorPosition, setCalculatorPosition] = useState({ x: 20, y: 100 });
+     const [calculatorPosition, setCalculatorPosition] = useState({ x: 700, y: 275 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [focusedCalcBlock, setFocusedCalcBlock] = useState(null); // 'bottom' | 'top' | null
@@ -779,7 +779,7 @@ const Sphere = () => {
   // Position calculator underneath the speech bubble text on You Try page 2
   useEffect(() => {
     if (isCustomShape && dimensionsCompleted && showCalculations) {
-      setCalculatorPosition({ x: 350, y: 275 });
+      setCalculatorPosition({ x: 700, y: 275 });
     }
   }, [isCustomShape, dimensionsCompleted, showCalculations]);
 
@@ -800,7 +800,7 @@ const Sphere = () => {
           {/* Flexi mascot just below the header and above the 3D shape, only on calculations page */}
           {isCustomShape && dimensionsCompleted && showCalculations && (
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', margin: '32px 0 16px 0', paddingLeft: '20px' }}>
-              <img src="/Flexi_Teacher.png" alt="Mascot teacher" style={{ width: 100, height: 'auto', display: 'block' }} />
+              <img src={import.meta.env.BASE_URL + 'Flexi_Teacher.png'} alt="Mascot teacher" style={{ width: 100, height: 'auto', display: 'block' }} />
               <div style={{
                 background: 'white',
                 border: '2px solid #008542',
@@ -821,7 +821,7 @@ const Sphere = () => {
           {/* Flexi mascot just below the header and above the 3D shape, only on dimensions input page (You Try page 1) */}
           {isCustomShape && !showCalculations && (
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', margin: '32px 0 16px 0' }}>
-              <img src="/Flexi_ThumbsUp.png" alt="Mascot thumbs up" style={{ width: 100, height: 'auto', display: 'block' }} />
+              <img src={import.meta.env.BASE_URL + 'Flexi_ThumbsUp.png'} alt="Mascot thumbs up" style={{ width: 100, height: 'auto', display: 'block' }} />
               <div style={{
                 background: 'white',
                 border: '2px solid #008542',
