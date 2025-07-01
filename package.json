@@ -38,13 +38,13 @@
   "main": "eslint.config.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Content-Interactives/sphere.git"
+    "url": "git+https://github.com/destinynguyen/surface-area.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Content-Interactives/sphere/issues"
+    "url": "https://github.com/destinynguyen/surface-area/issues"
   },
-  "homepage": "https://github.com/Content-Interactives/sphere#readme"
+  "homepage": "https://destinynguyen.github.io/surface-area/"
 }
