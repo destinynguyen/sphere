@@ -76,6 +76,7 @@ const Sphere = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [focusedCalcBlock, setFocusedCalcBlock] = useState(null); // 'bottom' | 'top' | null
+  const [focusedStep3, setFocusedStep3] = useState(false);
 
   const shapeLibrary = [
     { id: 'circle', name: 'Circle', svg: '○', formula: 'πr²' },
@@ -432,6 +433,27 @@ const Sphere = () => {
             <line x1={x} y1={y + prismHeight + prismDepth} x2={x + prismDepth} y2={y + prismHeight} stroke="#008542" strokeWidth="2" />
             {/* Back face (dashed) */}
             <rect x={x + prismDepth} y={y} width={prismLength} height={prismHeight} fill="none" stroke="#008542" strokeWidth="2" strokeDasharray="5,5" />
+            {/* Length line (dashed) */}
+            <line 
+              x1={x} 
+              y1={y + prismDepth + prismHeight/2} 
+              x2={x + prismLength} 
+              y2={y + prismDepth + prismHeight/2} 
+              stroke="#008542" 
+              strokeWidth="2" 
+              strokeDasharray="5,5" 
+            />
+            {/* Length label */}
+            <text
+              x={x + prismLength/2}
+              y={y + prismDepth + prismHeight/2 - Math.max(15, prismLength/4)}
+              dominantBaseline="bottom"
+              textAnchor="middle"
+              fill="#008542"
+              fontSize="14"
+            >
+              l
+            </text>
           </svg>
         </div>
       );
@@ -723,7 +745,6 @@ const Sphere = () => {
 
   // Draggable calculator handlers
   const handleCalculatorMouseDown = (e) => {
-    if (!calculatorExpanded) return;
     setIsDragging(true);
     const rect = e.currentTarget.getBoundingClientRect();
     setDragOffset({
@@ -755,6 +776,13 @@ const Sphere = () => {
     }
   }, [isDragging, dragOffset]);
 
+  // Position calculator underneath the speech bubble text on You Try page 2
+  useEffect(() => {
+    if (isCustomShape && dimensionsCompleted && showCalculations) {
+      setCalculatorPosition({ x: 350, y: 275 });
+    }
+  }, [isCustomShape, dimensionsCompleted, showCalculations]);
+
   return (
     <div className="bg-gray-100 p-8 min-h-screen">
       <Card className="w-full max-w-2xl mx-auto shadow-md bg-white">
@@ -771,7 +799,24 @@ const Sphere = () => {
           </div>
           {/* Flexi mascot just below the header and above the 3D shape, only on calculations page */}
           {isCustomShape && dimensionsCompleted && showCalculations && (
-              <img src="/Flexi_Teacher.png" alt="Mascot teacher" style={{ display: 'block', margin: '32px 0 16px 0', width: 100, height: 'auto' }} />
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', margin: '32px 0 16px 0', paddingLeft: '20px' }}>
+              <img src="/Flexi_Teacher.png" alt="Mascot teacher" style={{ width: 100, height: 'auto', display: 'block' }} />
+              <div style={{
+                background: 'white',
+                border: '2px solid #008542',
+                borderRadius: '16px',
+                padding: '20px 12px 90px 12px',
+                marginLeft: '16px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                fontSize: '1rem',
+                color: '#222',
+                maxWidth: 260,
+                position: 'relative',
+                minWidth: 200
+              }}>
+                <span style={{ fontWeight: 'bold', color: '#008542' }}>Use this calculator to help with your calculations!</span>
+              </div>
+            </div>
           )}
           {/* Flexi mascot just below the header and above the 3D shape, only on dimensions input page (You Try page 1) */}
           {isCustomShape && !showCalculations && (
@@ -792,28 +837,6 @@ const Sphere = () => {
               }}>
                 <span style={{ fontWeight: 'bold', color: '#008542' }}>Find the Surface Area of the 3D Staircase</span><br/>
                 Identify the dimensions of the two blocks, then calculate the total surface area!
-                <span style={{
-                
-                  left: '-24px',
-                  top: '32px',
-                  width: 0,
-                  height: 0,
-                  borderTop: '12px solid transparent',
-                  borderBottom: '12px solid transparent',
-                  borderRight: '24px solid #008542',
-                  zIndex: 1
-                }}></span>
-                <span style={{
-            
-                  left: '-20px',
-                  top: '34px',
-                  width: 0,
-                  height: 0,
-                  borderTop: '10px solid transparent',
-                  borderBottom: '10px solid transparent',
-                  borderRight: '20px solid white',
-                  zIndex: 2
-                }}></span>
               </div>
             </div>
           )}
@@ -909,44 +932,44 @@ const Sphere = () => {
                   {/* Existing polygons for block faces, but no highlight logic now */}
                   <polygon
                     points="150,300 250,300 160,210 60,210"
-                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'bottom' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="150,350 250,350 250,300 150,300"
-                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'bottom' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="150,350 150,300 60,210 60,260"
-                    fill={focusedCalcBlock === 'bottom' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'bottom' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   {/* Right/top rectangle faces */}
                   <polygon
                     points="250,250 300,250 210,160 160,160"
-                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'top' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="250,350 300,350 300,250 250,250"
-                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'top' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="300,350 300,250 210,160 210,260"
-                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'top' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
                   <polygon
                     points="210,260 210,160 160,160 160,260"
-                    fill={focusedCalcBlock === 'top' ? 'rgba(89,83,240,0.18)' : 'transparent'}
+                    fill={focusedCalcBlock === 'top' || focusedStep3 ? 'rgba(89,83,240,0.18)' : 'transparent'}
                     stroke="none"
                     style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   />
@@ -1255,6 +1278,8 @@ const Sphere = () => {
                               type="text"
                               value={calculationInputs.step3Result}
                               onChange={(e) => setCalculationInputs(prev => ({...prev, step3Result: e.target.value}))}
+                              onFocus={() => setFocusedStep3(true)}
+                              onBlur={() => setFocusedStep3(false)}
                               className={`w-16 px-2 py-1 text-xs border rounded ${
                                 calculationInputStatus.step3Result === 'correct' ? 'border-green-500 bg-green-50' :
                                 calculationInputStatus.step3Result === 'incorrect' ? 'border-red-500 bg-red-50' :
@@ -1468,14 +1493,12 @@ const Sphere = () => {
       {isCustomShape && showCalculations && (
         <div
           style={{
-            
+            position: 'absolute', // <-- Fixed positioning relative to viewport
             left: calculatorPosition.x,
             top: calculatorPosition.y,
             zIndex: 1000,
-            cursor: calculatorExpanded ? 'move' : 'pointer',
             userSelect: 'none'
           }}
-          onMouseDown={handleCalculatorMouseDown}
         >
               <div
                 onClick={() => setCalculatorExpanded(!calculatorExpanded)}
@@ -1494,20 +1517,24 @@ const Sphere = () => {
                   overflow: 'hidden',
                 }}
               >
-                <div style={{ 
-                  width: '100%', 
-                  textAlign: 'right', 
-                  fontSize: calculatorExpanded ? 24 : 10, 
-                  padding: calculatorExpanded ? '12px 16px' : '4px 6px', 
-                  color: '#222', 
-                  fontFamily: 'monospace', 
-                  minHeight: calculatorExpanded ? 32 : 16,
-                  background: calculatorExpanded ? '#f8f9fa' : '#e2e8f0',
-                  borderBottom: calculatorExpanded ? '1px solid #e9ecef' : '1px solid #cbd5e0',
-                  borderRadius: calculatorExpanded ? 0 : '3px 3px 0 0',
-                  margin: calculatorExpanded ? 0 : '3px 3px 0 3px',
-                  width: calculatorExpanded ? '100%' : 'calc(100% - 6px)'
-                }}>
+                <div 
+                  onMouseDown={handleCalculatorMouseDown}
+                  style={{ 
+                    width: '100%', 
+                    textAlign: 'right', 
+                    fontSize: calculatorExpanded ? 24 : 10, 
+                    padding: calculatorExpanded ? '12px 16px' : '4px 6px', 
+                    color: '#222', 
+                    fontFamily: 'monospace', 
+                    minHeight: calculatorExpanded ? 32 : 16,
+                    background: calculatorExpanded ? '#f8f9fa' : '#e2e8f0',
+                    borderBottom: calculatorExpanded ? '1px solid #e9ecef' : '1px solid #cbd5e0',
+                    borderRadius: calculatorExpanded ? 0 : '3px 3px 0 0',
+                    margin: calculatorExpanded ? 0 : '3px 3px 0 3px',
+                    width: calculatorExpanded ? '100%' : 'calc(100% - 6px)',
+                    cursor: 'move'
+                  }}
+                >
                   {calculatorDisplay}
                 </div>
                 {!calculatorExpanded && (
